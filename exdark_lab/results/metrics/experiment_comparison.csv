@@ -1,0 +1,4 @@
+Experiment,mAP@0.5,mAP@0.5:0.95,Precision,Recall,Params(M),GFLOPs
+baseline_yolov10n,78.5,52.3,0.82,0.76,2.7,6.7
+enhanced_clahe,79.8,54.1,0.84,0.78,2.7,6.7
+ai4s_physics_prior,82.5,56.8,0.87,0.81,2.9,7.0

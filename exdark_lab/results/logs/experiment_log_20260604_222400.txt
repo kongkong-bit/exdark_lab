@@ -1,0 +1,3 @@
+[2026-06-04 22:24:00] Experiment Tracker initialized
+[2026-06-04 22:24:00] Experiment 'enhanced_clahe' logged
+[2026-06-04 22:24:00]   mAP50: 0.31394235363912654

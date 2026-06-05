@@ -1,0 +1,86 @@
+# ============================================================
+# AI4S 物理辅助低光目标识别系统 - 全局配置文件
+# ============================================================
+
+# ---- 数据集配置 ----
+data:
+  root: "./data/ExDark"
+  output: "./data/processed"
+  dataset_yaml: "./data/dataset.yaml"
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+  random_seed: 42
+
+# ---- 模型配置 ----
+model:
+  name: "yolov10n"           # yolov10n / yolov8s / yolov8m / yolov8l
+  pretrained: true           # 使用预训练权重
+  img_size: 640
+  device: "auto"             # auto / cuda:0 / cpu
+
+# ---- Retinex 模块配置 ----
+retinex:
+  sigma_list: [15, 80, 250]  # 多尺度高斯滤波核
+  epsilon: 1.0e-6            # 防除零
+  use_gpu: true
+
+# ---- 训练配置 ----
+train:
+  epochs: 100
+  batch_size: 16
+  workers: 4
+  patience: 20               # Early stopping
+
+  # 优化器
+  optimizer: "AdamW"
+  lr: 0.001
+  weight_decay: 0.0005
+
+  # 学习率调度
+  scheduler: "CosineAnnealing"
+  lr_min: 1.0e-6
+  warmup_epochs: 3
+
+  # 混合精度训练
+  amp: true
+
+  # EMA (指数移动平均)
+  ema: true
+  ema_decay: 0.9999
+
+# ---- 物理损失权重 ----
+physics_loss:
+  lambda_illumination_smooth: 0.01   # 光照平滑损失权重
+  lambda_reflection_consistency: 0.1 # 反射一致性损失权重
+  lambda_retinex_reconstruction: 0.05 # Retinex重构损失权重
+
+# ---- 数据增强 ----
+augmentation:
+  mosaic: 0.5
+  mixup: 0.2
+  copy_paste: 0.2
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 0.0
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+
+# ---- 评估配置 ----
+eval:
+  conf_threshold: 0.25
+  iou_threshold: 0.45
+  max_det: 300
+
+# ---- 日志与保存 ----
+logging:
+  project: "ai4s_lowlight_detection"
+  experiment_name: null      # null = 自动生成
+  save_dir: "./results"
+  log_interval: 10           # 每N步打印一次日志
+  save_period: 10            # 每N个epoch保存一次
